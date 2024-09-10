@@ -2,10 +2,7 @@
 
 ## Download dos Arquivos Necessários
 
-### Alternativa 1: Download via Navegador
-Todos os arquivos podem ser encontrados no [GitHub](https://github.com/gbsites/base-arch) em **.zip** e passados via WinSCP para o servidor.
-
-### Alternativa 2: Download via Terminal
+### Alternativa 1 (Recomendado): Download via Terminal
 1. Abra um terminal e execute o comando abaixo para clonar o repositório:
 ```bash
 wget https://github.com/gbsites/base-arch/raw/main/basearch.zip
@@ -15,6 +12,12 @@ wget https://github.com/gbsites/base-arch/raw/main/basearch.zip
 ```bash
 unzip basearch.zip
 ```
+
+### Alternativa 2: Download via Navegador
+Todos os arquivos podem ser encontrados no [GitHub](https://github.com/gbsites/base-arch) em **.zip** e passados via WinSCP para o servidor.
+
+
+
 
 ## Atualização do Plugin da Base Arch
 Recomendo que todas as operações a partir de agora sejam feitas como **root**.
@@ -44,7 +47,7 @@ cd /usr/share/nginx/atom
 cd -
 ```
 
----
+
 
 ## Instalação e Configuração do Servidor Node
 
@@ -104,6 +107,8 @@ npm install pm2 -g
 ```bash
 pm2 start src/index.js --name base_arch_IA --watch
 ```
+
+
 
 ## Configuração do NGINX
 Para que o servidor NodeJS seja acessível através de um domínio, é necessário configurar o NGINX para fazer o proxy reverso.

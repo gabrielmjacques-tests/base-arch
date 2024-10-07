@@ -1,4 +1,11 @@
-# Tutorial de instalação do Servidor de IA da Base Arch
+# Tutorial de instalação do Servidor de IA na Base Arch
+
+*Disponível publicamente apenas pelo período de testes da API*
+
+Esta API tem objetivo de gerar descrições de imagens a partir do uso de **Inteligência Artificial**.
+No momento, ela possui duas rotas:
+* ```/api/describe-image``` - **GET** - Rota com uma interface simples apenas para propósito de testes de funcionamento da API;
+* ```/api/describe-image``` - **POST** - Rota que recebe uma imagem e retorna a descrição da imagem (Atualmente, utilizando o Gemini).
 
 ## Download dos Arquivos Necessários
 
@@ -19,13 +26,12 @@ Todos os arquivos podem ser encontrados no [GitHub](https://github.com/gbsites/b
 
 
 
-## Atualização do Plugin da Base Arch
-Recomendo que todas as operações a partir de agora sejam feitas como **root**.
+## Substituição do Plugin da Base Arch
+É necessário que todas as operações a partir de agora sejam feitas como **root**.
 ```bash
 sudo su
 ```
 
-### Substituição do antigo template
 1. Em um terminal, remova o antigo template da Base Arch:
 ```bash
 rm -rf /usr/share/nginx/atom/plugins/arBaseArchPlugin
@@ -42,7 +48,7 @@ cd /usr/share/nginx/atom
 ./refresh.sh
 ```
 
-4. Volte para o diretório anterior:
+4. Volte para o diretório anterior (diretório onde baixou os arquivos):
 ```bash
 cd -
 ```
@@ -60,7 +66,7 @@ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 source ~/.bashrc
 ```
 
-2. Verifique se o NVM foi instalado corretamente (deve aparecer a versão do NVM):
+2. Verifique se o NVM foi instalado corretamente (deverá aparecer a versão do NVM):
 ```bash
 nvm --version
 ```
@@ -72,7 +78,7 @@ O NodeJS é uma plataforma que permite executar JavaScript no lado do servidor.
 ```bash
 nvm install 22.8.0
 ```
-2. Verifique se o NodeJS foi instalado corretamente (deve aparecer a versão do NodeJS):
+2. Verifique se o NodeJS foi instalado corretamente (deverá aparecer a versão do NodeJS):
 ```bash
 node -v
 ```
@@ -98,15 +104,16 @@ cd /usr/share/nginx/atom/ia_server
 npm install
 ```
 
-4. A fim de garantir que este servidor continue sendo executado em segundo plano, é necessário a instação da biblioteca PM2 (Process Manager 2) globalmente:
+4. A fim de garantir que este servidor continue sendo executado em segundo plano, é necessário a instalação da biblioteca PM2 (Process Manager 2) globalmente:
 ```bash
 npm install pm2 -g
 ```
 
-5. Inicie o servidor NodeJS com o PM2 (deve aparecer o status do processo)
+5. Inicie o servidor NodeJS com o PM2 (deverá aparecer o estado do processo)
 ```bash
 pm2 start src/index.js --name base_arch_IA --watch
 ```
+**Nota:** As opções `--name base_arch_IA` e `--watch` são opcionais. A primeira define o nome do processo e a segunda faz com que o PM2 reinicie o processo caso haja alguma alteração no código.
 
 
 
@@ -133,3 +140,8 @@ location /api/ {
 ```bash
 sudo systemctl restart nginx
 ```
+
+## Teste da API
+* Para testar a API, acesse um objeto digital no AtoM e clique no botão logo abaixo da imagem principal.
+
+* Caso queira testar a API diretamente, acesse a rota ```/api/describe-image``` via navegador, que possui uma interface simples **apenas** para testes.

@@ -99,17 +99,23 @@ mv ia_server /usr/share/nginx/atom
 cd /usr/share/nginx/atom/ia_server
 ```
 
-3. Instale as dependências do servidor NodeJS:
+3. Abra o arquivo de configuração `.env` e adicione sua chave de API no campo `GOOGLE_API_KEY`: 
+```bash
+nano .env
+```
+**Nota:** A chave de API do Google é necessária para o funcionamento da API de descrição de imagens. Para obter uma chave de API, acesse o site [Google AI Studio](https://aistudio.google.com/app/apikey)
+
+4. Instale as dependências do servidor NodeJS:
 ```bash
 npm install
 ```
 
-4. A fim de garantir que este servidor continue sendo executado em segundo plano, é necessário a instalação da biblioteca PM2 (Process Manager 2) globalmente:
+5. A fim de garantir que este servidor continue sendo executado em segundo plano, é necessário a instalação da biblioteca PM2 (Process Manager 2) globalmente:
 ```bash
 npm install pm2 -g
 ```
 
-5. Inicie o servidor NodeJS com o PM2 (deverá aparecer o estado do processo)
+6. Inicie o servidor NodeJS com o PM2 (deverá aparecer o estado do processo)
 ```bash
 pm2 start src/index.js --name base_arch_IA --watch
 ```

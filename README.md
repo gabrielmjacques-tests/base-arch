@@ -12,7 +12,7 @@ No momento, ela possui duas rotas:
 ### Alternativa 1 (Recomendado): Download via Terminal
 1. Abra um terminal e execute o comando abaixo para clonar o repositório:
 ```bash
-wget https://github.com/gbsites/base-arch/raw/main/basearch.zip
+wget https://github.com/gabrielmjacques-tests/base-arch/raw/main/basearch.zip
 ```
 
 2. Extraia o arquivo **basearch.zip**:
@@ -21,7 +21,7 @@ unzip basearch.zip
 ```
 
 ### Alternativa 2: Download via Navegador
-Todos os arquivos podem ser encontrados no [GitHub](https://github.com/gbsites/base-arch) em **.zip** e passados via WinSCP para o servidor.
+Todos os arquivos podem ser encontrados no [GitHub](https://github.com/gabrielmjacques-tests/base-arch) em **.zip** e passados via WinSCP para o servidor.
 
 
 

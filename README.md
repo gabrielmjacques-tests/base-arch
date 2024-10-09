@@ -89,12 +89,12 @@ npm -v
 ```
 
 ### Configuração do Servidor NodeJS
-1. Mova diretório do servidor NodeJS para a pasta do AtoM:
+1. Mova a pasta da API para o diretório do AtoM:
 ```bash
 mv ia_server /usr/share/nginx/atom
 ```
 
-2. Entre na pasta do servidor NodeJS:
+2. Entre na pasta da API:
 ```bash
 cd /usr/share/nginx/atom/ia_server
 ```

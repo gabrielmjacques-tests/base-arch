@@ -99,7 +99,7 @@ mv ia_server /usr/share/nginx/atom
 cd /usr/share/nginx/atom/ia_server
 ```
 
-3. Abra o arquivo de configuração `.env` e adicione sua chave de API no campo `GOOGLE_API_KEY`: 
+3. Renomeie o arquivo `exemple.env` para `.env`, e adicione sua chave de API no campo `GOOGLE_API_KEY` dentro do arquivo: 
 ```bash
 nano .env
 ```

@@ -101,6 +101,7 @@ cd /usr/share/nginx/atom/ia_server
 
 3. Renomeie o arquivo `exemple.env` para `.env`, e adicione sua chave de API no campo `GOOGLE_API_KEY` dentro do arquivo: 
 ```bash
+mv exemple.env .env
 nano .env
 ```
 **Nota:** A chave de API do Google é necessária para o funcionamento da API de descrição de imagens. Para obter uma chave de API, acesse o site [Google AI Studio](https://aistudio.google.com/app/apikey)

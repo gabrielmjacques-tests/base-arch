@@ -4,15 +4,17 @@
 
 Esta API tem objetivo de gerar descrições de imagens a partir do uso de **Inteligência Artificial**.
 No momento, ela possui duas rotas:
-* ```/api/describe-image``` - **GET** - Rota com uma interface simples apenas para propósito de testes de funcionamento da API;
-* ```/api/describe-image``` - **POST** - Rota que recebe uma imagem e retorna a descrição da imagem (Atualmente, utilizando o Gemini).
+* ```/api/interface-web``` - **GET** - Rota com uma interface simples apenas para propósito de testes de funcionamento da API (Endpoint configurável através do arquivo `.env`);
+* ```/api/descrever/imagem``` - **POST** - Rota que recebe uma imagem e retorna a descrição da imagem (Atualmente, utilizando o Gemini).
+
+**Nota:** Caso esteja utilizando a API fora do NGINX, considere remover o prefixo `/api/` das rotas, pois elas estarão disponíveis diretamente na raiz do servidor NodeJS.
 
 ## Download dos Arquivos Necessários
 
 ### Alternativa 1 (Recomendado): Download via Terminal
 1. Abra um terminal e execute o comando abaixo para clonar o repositório:
 ```bash
-wget https://github.com/gabrielmjacques-tests/base-arch/raw/main/basearch.zip
+wget https://github.com/gabrielmjacques-tests/base-arch/raw/main/arquivos_instalacao/basearch.zip
 ```
 
 2. Extraia o arquivo **basearch.zip**:
@@ -42,13 +44,19 @@ rm -rf /usr/share/nginx/atom/plugins/arBaseArchPlugin
 mv arBaseArchPlugin /usr/share/nginx/atom/plugins
 ```
 
-3. Execute o script de limpeza do cache do AtoM:
+3. Altere as permissões do novo template:
+```bash
+chown -R www-data:www-data /usr/share/nginx/atom/plugins/arBaseArchPlugin
+chmod -R 755 /usr/share/nginx/atom/plugins/arBaseArchPlugin
+```
+
+4. Execute o script de limpeza do cache do AtoM:
 ```bash
 cd /usr/share/nginx/atom
 ./refresh.sh
 ```
 
-4. Volte para o diretório anterior (diretório onde baixou os arquivos):
+5. Volte para o diretório anterior (diretório onde baixou os arquivos):
 ```bash
 cd -
 ```
@@ -99,9 +107,9 @@ mv ia_server /usr/share/nginx/atom
 cd /usr/share/nginx/atom/ia_server
 ```
 
-3. Renomeie o arquivo `exemple.env` para `.env`, e adicione sua chave de API no campo `GOOGLE_API_KEY` dentro do arquivo: 
+3. Renomeie o arquivo `exemplo.env` para `.env`, e adicione sua chave de API no campo `GOOGLE_API_KEY` dentro do arquivo: 
 ```bash
-mv exemple.env .env
+mv exemplo.env .env
 nano .env
 ```
 **Nota:** A chave de API do Google é necessária para o funcionamento da API de descrição de imagens. Para obter uma chave de API, acesse o site [Google AI Studio](https://aistudio.google.com/app/apikey)
@@ -118,10 +126,14 @@ npm install pm2 -g
 
 6. Inicie o servidor NodeJS com o PM2 (deverá aparecer o estado do processo)
 ```bash
-pm2 start src/index.js --name base_arch_IA --watch
+pm2 start src/server.js --name base_arch_IA
 ```
-**Nota:** As opções `--name base_arch_IA` e `--watch` são opcionais. A primeira define o nome do processo e a segunda faz com que o PM2 reinicie o processo caso haja alguma alteração no código.
 
+7. Para garantir que o PM2 inicie automaticamente após uma reinicialização do servidor, execute os comandos abaixo:
+```bash
+pm2 save
+pm2 startup
+```
 
 
 ## Configuração do NGINX
@@ -135,11 +147,12 @@ nano /etc/nginx/sites-available/atom
 2. Adicione o seguinte bloco de configuração dentro do bloco `server`:
 ```nginx
 location /api/ {
-    proxy_pass http://localhost:3000;  # Porta onde sua API está rodando
+    proxy_pass http://localhost:3000/;  # Porta onde sua API está rodando
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
     proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_cache_bypass $http_upgrade;
 }
 ```
 
@@ -149,6 +162,12 @@ sudo systemctl restart nginx
 ```
 
 ## Teste da API
-* Para testar a API, acesse um objeto digital no AtoM e clique no botão logo abaixo da imagem principal.
+Para testar a API, escolha um objeto digital e clique no botão "Descrever Imagem" logo abaixo da imagem.
 
-* Caso queira testar a API diretamente, acesse a rota ```/api/describe-image``` via navegador, que possui uma interface simples **apenas** para testes.
+Além disso, caso esteja em modo de desenvolvimento, você pode acessar a rota de teste da API através do navegador:
+```bash
+http://<seu_dominio>/api/interface-web
+
+# Ou, caso esteja fora de um servidor
+http://localhost:3000/interface-web
+```

@@ -1,0 +1,181 @@
+/* Variáveis */
+:root {
+    --primary: #154a75;
+    --bg-dark: #2A3335;
+    --bg-light: #f2f7fe;
+}
+
+button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 20px;
+    font-size: 12px;
+    transition: background-color 0.1s ease;
+
+    &:hover {
+        background-color: #0667b6;
+    }
+}
+
+/* Layout Base */
+body {
+    background-color: var(--bg-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+
+    flex: 1;
+    width: 100%;
+    height: 100dvh;
+
+    #conteudo {
+        display: flex;
+        gap: 5px;
+        width: 100%;
+        padding: 50px;
+        max-width: 1280px;
+        height: 60%;
+        max-height: 862px;
+
+        #configForm,
+        #descricaoForm {
+            background-color: var(--bg-light);
+
+            padding: 10px;
+            height: 100%;
+        }
+
+        #configForm {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: scroll;
+
+            width: 400px;
+            gap: 10px;
+            border-radius: 7px 0 0 7px;
+
+            .inputs {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                .inputGroup {
+                    display: flex;
+                    flex-direction: column;
+
+                    gap: 5px;
+
+                    label {
+                        font-weight: bold;
+
+                        font-size: 14px;
+                        opacity: 0.8;
+                        padding-left: 5px;
+                        box-shadow: -2px 0 black;
+                    }
+
+                    select,
+                    input,
+                    textarea {
+                        outline: none;
+                        font-family: 'Segoe UI', sans-serif;
+
+                        padding: 5px 10px;
+                        border-radius: 4px;
+
+                        border: 1px solid var(--primary);
+                    }
+
+                    textarea {
+                        resize: vertical;
+                        height: 200px;
+                    }
+                }
+
+                .inputGroup:not(:last-child) {
+                    padding: 15px 0;
+                    border-bottom: 1px solid #00000065;
+                }
+            }
+        }
+
+        #descricaoForm {
+            display: flex;
+            flex-direction: column;
+
+            flex: 1;
+            gap: 10px;
+            border-radius: 0 7px 7px 0;
+
+            #uploadContainer {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+
+                label {
+                    #imagePreviewContainer {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: auto;
+                        object-fit: cover;
+                        background-color: #fff;
+
+                        width: 100%;
+                        max-width: 600px;
+                        height: 300px;
+                        margin-bottom: 20px;
+                        border-radius: 7px;
+                        border: 1px solid #0000002d;
+                        box-shadow: 0 3px 10px #0000002d;
+                        transition-duration: 200ms;
+
+                        &:hover,
+                        &:focus-within {
+                            border: 1px solid var(--primary);
+                            box-shadow: 0 0 transparent;
+                        }
+
+                        &:active {
+                            background-color: #ececec;
+                        }
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 7px;
+                            object-fit: contain;
+                        }
+
+                        &:has(img[src=""]) img {
+                            display: none;
+                        }
+
+                        p {
+                            font-weight: bold;
+                            text-align: center;
+                            margin: auto;
+
+                            opacity: 0.5;
+                            font-size: 20px;
+                            width: 40%;
+                        }
+
+                        &:not(:has(img[src=""])) p {
+                            display: none;
+                        }
+                    }
+                }
+
+                #output {
+                    text-align: justify;
+                }
+            }
+        }
+    }
+}

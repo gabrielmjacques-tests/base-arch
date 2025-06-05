@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descrição de Imagem</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <main id="conteudo">
+        <!-- Seção de Configurações -->
+        <form id="configForm">
+            <div class="inputs">
+                <div class="inputGroup">
+                    <label for="modelo">Modelo</label>
+
+                    <select name="modelo" id="modelo">
+                        <% config.modelosDisponiveis.forEach(modelo=> { %>
+                            <option value="<%=modelo.nome%>" <%=config.modelo===modelo.nome ? 'selected' : '' %>
+                                >
+                                <%=modelo.nome%>
+                            </option>
+                            <% }); %>
+                    </select>
+
+                    <span id="descricaoModelo"></span>
+                    <a href="" id="linkModelo" target="_blank"></a>
+                </div>
+
+                <div class="inputGroup">
+                    <label for="maxOutputTokens">Tokens de saída máximos</label>
+                    <input type="number" name="maxOutputTokens" id="maxOutputTokens" min="1" max="1000"
+                        value="<%= config.generationConfig.maxOutputTokens %>">
+                </div>
+                <div class="inputGroup">
+                    <label for="prompt">Prompt</label>
+                    <textarea name="prompt" id="prompt" rows="10" translate="no"><%- config.prompt %></textarea>
+                </div>
+            </div>
+
+            <button type="submit" id="saveConfigButton">Salvar</button>
+        </form>
+
+        <!-- Seção de Upload e Visualização -->
+        <form id="descricaoForm">
+            <div id="uploadContainer">
+                <label for="imageInput">
+                    <div id="imagePreviewContainer">
+                        <img src="">
+
+                        <p>Clique aqui para selecionar a imagem</p>
+                    </div>
+                </label>
+
+                <input type="file" name="image" id="imageInput" accept="image/*" style="display: none;">
+
+                <span id="output">A descrição aparecerá aqui</span>
+            </div>
+
+            <button type="submit" id="descriptionButton">Gerar Descrição</button>
+        </form>
+    </main>
+
+    <script src="js/index.js"></script>
+
+    <!-- Scripts com Dependência de Variáveis EJS -->
+    <script defer>
+        let modelosDisponiveis = JSON.parse(`<%- JSON.stringify(config.modelosDisponiveis) %>`)
+
+        modeloSelecionadoCampo = modelo.value
+        let modeloSelecionado = modelosDisponiveis.find(modelo => modelo.nome === modeloSelecionadoCampo)
+
+        descricaoModelo.textContent = modeloSelecionado.descricao
+        linkModelo.href = modeloSelecionado.link
+        linkModelo.textContent = `Documentação - ${modeloSelecionado.nome}`
+
+        modelo.addEventListener('change', (e) => {
+            modeloSelecionadoCampo = e.target.value
+
+            modeloSelecionado = modelosDisponiveis.find(modelo => modelo.nome === modeloSelecionadoCampo)
+
+            descricaoModelo.textContent = modeloSelecionado.descricao
+            linkModelo.href = modeloSelecionado.link
+            linkModelo.textContent = `Documentação - ${modeloSelecionado.nome}`
+        })
+    </script>
+</body>
+
+</html>
